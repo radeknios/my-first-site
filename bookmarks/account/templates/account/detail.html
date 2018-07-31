@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load mptt_tags %} 
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ post.title }} </h1>
+<p>
+{% for parent in post.category.get_ancestors %}
+{{ parent.name }} / 
+{% endfor %}
+{{ post.category }}
+</p>
+<br/><br/>
+
+
+<p class="date">Opublikowany {{ post.publish }} przez {{ post.author }} 
+</p>
+{{ post.body|linebreaks }}
+<p></p>
+<p><a href="{% url 'delete_post' post.id %}"}>Usuń post</a></p>
+
+{% endblock %}
+

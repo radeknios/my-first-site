@@ -1,0 +1,4 @@
+{% load mptt_tags %}
+    {% recursetree genres %}
+            <a href="{{ node.get_absolute_url }}"><li>{{ node.name }}</li></a>
+    {% endrecursetree %}

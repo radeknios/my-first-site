@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+<p>Ostatnie zlecenia:</p>
+
+{% for post in posts %}
+<div class="single_post">
+   <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+<br/>
+<br/>
+   <div>
+       {{ post.publish }}
+        {% for parent in post.category.get_ancestors %}
+           {{ parent.name }} / 
+                              {% endfor %}
+                                 {{ post.category }}
+</div>
+</div>
+ {% endfor %}
+<br/>
+<p><a href="{% url "new_post" %}">Dodaj nowe zlecenie</a></p>
+ 
+{% endblock %}
+

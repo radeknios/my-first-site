@@ -1,0 +1,40 @@
+<!-- Plik base.html musi być zawsze w głównym katalogu templates!!! -->
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <header>
+    <span class="logo">Bookmarks</span>
+    <div class="nav">
+       <label class="hamburger" for="toggle">&#9776;</label>
+       <input type="checkbox" id="toggle"/>
+         <div class="menu">
+          
+    {% if request.user.is_authenticated %}
+          <a href="{% url "dashboard" %}">Panel główny</a>
+          <a href="{% url "your_posts" %}">Twoje zlecenia</a>
+       
+          <a class="new_post" href="{% url "new_post" %}">Dodaj zlecenie</a>
+    {% endif %}
+          {% if request.user.is_authenticated %}
+       Witaj, {{ request.user.first_name }}!
+       <a class="logout" href="{% url "logout" %}">Wyloguj</a>
+     {% else %}
+       <a href="{% url "login" %}">Zaloguj</a>
+     {% endif %}
+       </div>
+    </div>
+     
+  </header>
+
+  <div class="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
