@@ -41,7 +41,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'mptt',
     'account',
     'django.contrib.admin',
     'django.contrib.auth',

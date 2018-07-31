@@ -1,11 +1,10 @@
-#test test test
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
 import datetime
-from mptt.models import MPTTModel, TreeForeignKey
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -27,7 +26,7 @@ class PublishedManager(models.Manager):
  
 class Post(models.Model):
     title = models.CharField(max_length=250)
-    category = TreeForeignKey('Category', on_delete=models.CASCADE, related_name='post')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='post')
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -43,41 +42,29 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.id])
 
-    '''def get_absolute_url(self):
-        return reverse('delete_post', args=[self.id])'''
-
     class Meta:
         ordering = ('-publish',)
 
-class Category(MPTTModel):
-    name = models.CharField(max_length=50, unique=True)
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, on_delete=models.CASCADE)
+class Category(models.Model):
+    name = models.CharField(max_length=200)
     slug = models.SlugField()
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
+    parent = models.ForeignKey('self',blank=True, null=True ,related_name='children', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (('parent', 'slug',))
-        verbose_name_plural = 'categories'
+        unique_together = ('slug', 'parent',)    #enforcing that there can not be two
+        verbose_name_plural = "categories"       #categories under a parent with same 
+                                                 #slug 
 
-    def get_absolute_url(self):
-        return reverse('list_of_post_by_category', args=[self.slug])
+    def __str__(self):                           # __str__ method elaborated later in
+        full_path = [self.name]                  # post.  use __unicode__ in place of
+                                                 # __str__ if you are using python 2
+        k = self.parent                          
 
-    def __str__(self):
-        return self.name
+        while k is not None:
+            full_path.append(k.name)
+            k = k.parent
 
-    def get_slug_list(self):
-        try:
-            ancestors = self.get_ancestors(include_self=True)
-        except:
-            ancestors = []
-        else:
-            ancestors = [ i.slug for i in ancestors]
-            slugs = []
-        for i in range(len(ancestors)):
-            slugs.append('/'.join(ancestors[:i+1]))
-        return slugs
+        return ' -> '.join(full_path[::-1])
 
 
 

@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Profile, Post, Available, Category
-from mptt.admin import MPTTModelAdmin
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -16,8 +15,11 @@ admin.site.register(Post, PostAdmin)
 class AvailableAdmin(admin.ModelAdmin):
     list_display = ('user', 'start', 'end')
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_dispaly = ('name', 'parent', 'slug')
+
 admin.site.register(Available, AvailableAdmin)
-admin.site.register(Category , MPTTModelAdmin)
+admin.site.register(Category)
 
 
 
