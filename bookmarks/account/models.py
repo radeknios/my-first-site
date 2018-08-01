@@ -64,7 +64,7 @@ class Category(models.Model):
             full_path.append(k.name)
             k = k.parent
 
-        return ' -> '.join(full_path[::-1])
+        return ' / '.join(full_path[::-1])
 
 
 

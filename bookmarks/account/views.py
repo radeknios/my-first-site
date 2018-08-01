@@ -108,7 +108,8 @@ def add_available(request):
     return render(request, 'account/available_add.html', {'form': form})
 
 def show_genres(request):
-    return render(request, "account/genres.html", {'genres': Category.objects.all()})
+    genres = Category.objects.all()
+    return render(request, "account/genres.html", {'genres': genres})
 
 def list_of_post_by_category(request, slug):
     categories = Category.objects.all()
