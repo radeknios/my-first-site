@@ -55,7 +55,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"       #categories under a parent with same 
                                                  #slug 
 
-    def __str__(self):                           # __str__ method elaborated later in
+    '''def __str__(self):                           # __str__ method elaborated later in
         full_path = [self.name]                  # post.  use __unicode__ in place of
                                                  # __str__ if you are using python 2
         k = self.parent                          
@@ -64,7 +64,7 @@ class Category(models.Model):
             full_path.append(k.name)
             k = k.parent
 
-        return ' / '.join(full_path[::-1])
+        return ' / '.join(full_path[::-1])'''
 
 
 
