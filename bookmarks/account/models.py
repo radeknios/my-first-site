@@ -26,7 +26,8 @@ class PublishedManager(models.Manager):
  
 class Post(models.Model):
     title = models.CharField(max_length=250)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='post')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -46,18 +47,19 @@ class Post(models.Model):
         ordering = ('-publish',)
 
 class Category(models.Model):
-    category = models.CharField(max_length=200)
+    category = models.CharField(max_length=250)
     slug = models.SlugField()
     
 
-    def __str__(self)
+    def __str__(self):
         return self.category
 
 class SubCategory(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    subcategory = models.CharField(max_lenght=200)
+    subcategory = models.CharField(max_length=250)
+    slug = models.SlugField()
 
-    def __str__(self)
+    def __str__(self):
         return self.subcategory   
 
 

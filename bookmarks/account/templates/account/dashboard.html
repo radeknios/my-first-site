@@ -13,10 +13,7 @@
 <br/>
    <div>
        {{ post.publish }}
-        {% for parent in post.category.get_ancestors %}
-           {{ parent.name }} / 
-                              {% endfor %}
-                                 {{ post.category }}
+                                 {{ post.category }} / {{ post.subcategory }}
 </div>
 </div>
  {% endfor %}

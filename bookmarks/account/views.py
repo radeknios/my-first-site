@@ -25,7 +25,7 @@ def user_login(request):
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, AddPostForm, AddAvailable
-from .models import Profile, Post, Category
+from .models import Profile, Post, Category, SubCategory
 from django.utils import timezone
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -108,8 +108,9 @@ def add_available(request):
     return render(request, 'account/available_add.html', {'form': form})
 
 def show_genres(request):
-    genres = Category.objects.all()
-    return render(request, "account/genres.html", {'genres': genres})
+    categories = Category.objects.all()
+    #subcategories = SubCategory.objects.filter(category = categories)
+    return render(request, "account/genres.html", {'categories': categories}, '''{'subcategories' : subcategories}''')
 
 def list_of_post_by_category(request, slug):
     categories = Category.objects.all()
