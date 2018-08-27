@@ -50,12 +50,14 @@ class Category(models.Model):
     category = models.CharField(max_length=250)
     slug = models.SlugField()
     
-
     def __str__(self):
         return self.category
 
+    def get_absolute_url(self):
+        return reverse('list_of_post_by_category', args=[self.slug])
+
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="subcategories")
     subcategory = models.CharField(max_length=250)
     slug = models.SlugField()
 

@@ -89,6 +89,7 @@ def new_post(request):
 def your_posts(request):
     posts = Post.objects.filter(author = request.user)
     return render(request, 'account/your_posts.html', {'posts': posts})
+
 @login_required
 def delete_post(request, id):
     del_post = get_object_or_404(Post, id=id, author=request.user)
@@ -113,13 +114,13 @@ def show_genres(request):
     return render(request, "account/genres.html", {'categories': categories}, '''{'subcategories' : subcategories}''')
 
 def list_of_post_by_category(request, slug):
-    categories = Category.objects.all()
+    #categories = Category.objects.all()
     #days = 30
     #post = Post.objects.filter(publish__gte = timezone.now() - timedelta(days=days))
     #post = Post.objects.all()
     #if category_slug:
     category=get_object_or_404(Category, slug = slug)
     posts = Post.objects.filter(category=category)
-    return render(request, "account/list_of_post_by_category.html", {'categories': categories, 'posts': posts, 'category': category})
+    return render(request, "account/list_of_post_by_category.html", {'posts': posts, 'category': category})
     
     

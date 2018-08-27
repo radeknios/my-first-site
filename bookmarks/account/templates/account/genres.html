@@ -1,3 +1,17 @@
-{% for category in categories %}
-{{ category }}
+{% extends "base.html" %}
+
+
+{% block title %}Lista kategorii{% endblock %}
+
+{% block content %}
+<ul><li>{% for k in categories %}
+<a href="{{ k.get_absolute_url }}">{{ k.category }}</a></li>
+     {% if k.subcategories.all %}
+         {% for s in k.subcategories.all %}
+               <ul> <li>{{ s.subcategory }}</li></ul>
+         {% endfor %}
+     {% endif %}
+
 {% endfor %}
+</ul>
+{% endblock %}
