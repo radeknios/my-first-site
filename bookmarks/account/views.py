@@ -114,13 +114,13 @@ def show_genres(request):
     return render(request, "account/genres.html", {'categories': categories}, '''{'subcategories' : subcategories}''')
 
 def list_of_post_by_category(request, slug):
-    #categories = Category.objects.all()
+    categories = Category.objects.all()
     #days = 30
     #post = Post.objects.filter(publish__gte = timezone.now() - timedelta(days=days))
     #post = Post.objects.all()
     #if category_slug:
     category=get_object_or_404(Category, slug = slug)
     posts = Post.objects.filter(category=category)
-    return render(request, "account/list_of_post_by_category.html", {'posts': posts, 'category': category})
+    return render(request, "account/list_of_post_by_category.html", {'categories': categories, 'posts': posts, 'category': category})
     
     
